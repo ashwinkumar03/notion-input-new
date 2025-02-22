@@ -1,0 +1,28 @@
+name: Heartbeat Ping
+
+on:
+  schedule:
+    # Runs every 12 minutes
+    - cron: '*/12 * * * *'
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Ping Health Check Endpoint
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "X-API-Key: ${{ secrets.API_KEY }}" \
+            ${{ secrets.HEALTH_CHECK_URL }})
+          
+          if [ "$response" -eq 200 ]; then
+            echo "Heartbeat successful"
+            exit 0
+          else
+            echo "Heartbeat failed with status: $response"
+            exit 1
+          fi
+        env:
+          API_KEY: ${{ secrets.API_KEY }} 
