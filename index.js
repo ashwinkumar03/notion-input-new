@@ -8,6 +8,9 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Add this line after creating the Express app
+app.set('trust proxy', 1);  // Trust first proxy
+
 // Add logging middleware with masked sensitive info
 app.use((req, res, next) => {
   const start = Date.now();
