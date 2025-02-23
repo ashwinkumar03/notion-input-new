@@ -1,10 +1,9 @@
 name: Heartbeat Ping
 
 on:
+  workflow_dispatch:  # Manual trigger
   schedule:
-    # Runs every 12 minutes
-    - cron: '*/12 * * * *'
-  workflow_dispatch:  # Allows manual triggering
+    - cron: '*/12 * * * *'  # Every 12 minutes
 
 jobs:
   ping:
